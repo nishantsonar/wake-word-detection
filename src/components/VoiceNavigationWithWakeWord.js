@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // Constants
 const WAKE_WORD_DELAY = 100;
 const RECORDING_DURATION = 3000;
+const WAKE_WORD="hey google";
 
 // Styled components
 const VoiceContainer = styled.div`
@@ -272,12 +273,13 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
   // States
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [wakeWord, setWakeWord] = useState('hey assistant');
+  const [wakeWord, setWakeWord] = useState(WAKE_WORD);
   const [wakeWordDetected, setWakeWordDetected] = useState(false);
   const [isListeningForCommand, setIsListeningForCommand] = useState(false);
   const [detectedWakeWord, setDetectedWakeWord] = useState('');
   const [recognition, setRecognition] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [recognitionActive, setRecognitionActive] = useState(false);
   
   // Refs
   const mediaRecorderRef = useRef(null);
@@ -301,20 +303,34 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
 
   // Start wake word detection
   const startWakeWordDetection = useCallback(() => {
-    if (!recognition) return;
+    if (!recognition || recognitionActive) return;
     
-    console.log("Started listening for wake word...");
-    recognition.start();
-    setIsListening(true);
-  }, [recognition]);
+    try {
+      console.log("Started listening for wake word...");
+      recognition.start();
+      setRecognitionActive(true);
+      setIsListening(true);
+    } catch (error) {
+      console.error("Error starting recognition:", error);
+      // If already started, don't try to start again
+      if (error.name !== 'InvalidStateError') {
+        setRecognitionActive(false);
+      }
+    }
+  }, [recognition, recognitionActive]);
 
   // Stop wake word detection
   const stopWakeWordDetection = useCallback(() => {
-    if (!recognition) return;
+    if (!recognition || !recognitionActive) return;
     
-    recognition.stop();
-    setIsListening(false);
-  }, [recognition]);
+    try {
+      recognition.stop();
+      setRecognitionActive(false);
+      setIsListening(false);
+    } catch (error) {
+      console.error("Error stopping recognition:", error);
+    }
+  }, [recognition, recognitionActive]);
 
   // Handle recognition results for wake word detection
   useEffect(() => {
@@ -337,7 +353,7 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
           setWakeWordDetected(true);
           
           // Try to extract the actual detected variant for debugging
-          const words = currentTranscript.toLowerCase().split(/\\s+/);
+          const words = currentTranscript.toLowerCase().split(/\s+/);
           for (const word of words) {
             if (levenshteinDistance(word, wakeWord.toLowerCase()) <= 3) {
               setDetectedWakeWord(word);
@@ -357,22 +373,25 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
     };
 
     const handleEnd = () => {
+      // Recognition ended, update state
+      setRecognitionActive(false);
+      
       // Restart recognition if it ends and we're still supposed to be listening
       if (isListening && !wakeWordDetected) {
-        recognition.start();
+        setTimeout(() => {
+          startWakeWordDetection();
+        }, 300);
       }
     };
 
     const handleError = (event) => {
       console.error('Speech recognition error', event.error);
+      setRecognitionActive(false);
+      
       // Attempt to restart after error
       if (isListening && !wakeWordDetected) {
         setTimeout(() => {
-          try {
-            recognition.start();
-          } catch (e) {
-            console.error("Failed to restart recognition:", e);
-          }
+          startWakeWordDetection();
         }, 1000);
       }
     };
@@ -386,7 +405,7 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
       recognition.onend = null;
       recognition.onerror = null;
     };
-  }, [recognition, wakeWord, wakeWordDetected, isListening, isRecording, stopWakeWordDetection]);
+  }, [recognition, wakeWord, wakeWordDetected, isListening, isRecording, stopWakeWordDetection, startWakeWordDetection]);
 
   // Start recording for command
   const startRecording = async () => {
@@ -493,16 +512,16 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
 
   // Start/stop wake word detection on mount/unmount
   useEffect(() => {
-    if (recognition) {
+    if (recognition && !recognitionActive && !wakeWordDetected) {
       startWakeWordDetection();
     }
     
     return () => {
-      if (recognition) {
+      if (recognition && recognitionActive) {
         stopWakeWordDetection();
       }
     };
-  }, [recognition, startWakeWordDetection, stopWakeWordDetection]);
+  }, [recognition, recognitionActive, wakeWordDetected, startWakeWordDetection, stopWakeWordDetection]);
 
   // Toggle listening manually
   const toggleListening = () => {
