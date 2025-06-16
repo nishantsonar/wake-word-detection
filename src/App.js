@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Components
 import Navbar from './components/Navbar';
-import VoiceNavigation from './components/VoiceNavigation';
+import VoiceNavigationWithWakeWord from './components/VoiceNavigationWithWakeWord';
 
 // Pages
 import Home from './pages/Home';
@@ -81,7 +81,7 @@ const NavigationWrapper = () => {
       </MainContent>
       
       <VoiceControlContainer>
-        <VoiceNavigation 
+        <VoiceNavigationWithWakeWord 
           onNavigate={handleNavigation} 
           commands={navigationCommands}
         />
