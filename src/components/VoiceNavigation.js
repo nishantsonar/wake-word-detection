@@ -1,3 +1,10 @@
+// MIT License
+// Copyright (c) 2025 Nishant Sonar
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy...
+// (add rest of license if desired, or just the first two lines as attribution)
+
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { 
   Box, 

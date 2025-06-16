@@ -1,121 +1,137 @@
-# Voice Navigation System
+# 🎤 Voice Navigation App
 
-A React-based web application that allows users to navigate through the interface using voice commands. This project demonstrates how to implement voice recognition and navigation in a modern web application.
-
-## Features
-
-- **Voice Command Navigation**: Navigate between pages using natural voice commands
-- **Visual Feedback**: Clear visual indicators when voice recognition is active
-- **Accessible Design**: Built with accessibility in mind
-- **Responsive Interface**: Works on desktop and mobile devices
-- **Command History**: Track and display voice command usage
-
-## Demo
-
-[Live Demo](#) (Coming soon)
-
-## Voice Commands
-
-The application responds to the following voice commands:
-
-- "Go home" / "Home page" - Navigate to the Home page
-- "Dashboard" / "Go to dashboard" / "Show dashboard" - Navigate to the Dashboard
-- "Settings" / "Go to settings" / "Show settings" - Navigate to the Settings page
-- "Profile" / "Go to profile" / "Show profile" - Navigate to the Profile page
-
-## Technologies Used
-
-- React
-- React Router
-- Styled Components
-- Web Speech API
-- JavaScript (ES6+)
-
-## Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/voice-navigation-system.git
-   ```
-
-2. Navigate to the project directory:
-   ```
-   cd voice-navigation-system
-   ```
-
-3. Install dependencies:
-   ```
-   npm install
-   ```
-
-4. Start the development server:
-   ```
-   npm start
-   ```
-
-5. Open your browser and visit `http://localhost:3000`
-
-## Browser Compatibility
-
-The Web Speech API is supported in the following browsers:
-
-- Chrome (desktop & Android)
-- Edge
-- Safari (desktop & iOS)
-- Firefox (with flags enabled)
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── Navbar.js
-│   └── VoiceNavigation.js
-├── pages/
-│   ├── Home.js
-│   ├── Dashboard.js
-│   ├── Settings.js
-│   └── Profile.js
-├── App.js
-└── index.js
-```
-
-## How It Works
-
-1. The application uses the Web Speech API's `SpeechRecognition` interface to listen for user commands
-2. When a command is recognized, it is processed to determine the user's intent
-3. If the command matches a known navigation command, the app navigates to the appropriate page
-4. Visual feedback is provided to the user throughout this process
-
-## Accessibility
-
-This project is built with accessibility in mind:
-
-- All interactive elements are keyboard accessible
-- ARIA attributes are used where appropriate
-- Color contrast meets WCAG standards
-- Voice commands provide an alternative navigation method for users with mobility impairments
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
-- [React Router](https://reactrouter.com/)
-- [Styled Components](https://styled-components.com/)
+> 🚀 **Hands-free navigation for modern web apps!**  
+> Just say the word — literally.
 
 ---
 
-Created with ❤️ by Nishant Sonar
+## ✨ Overview
+
+Say goodbye to clicking and scrolling. With the **Voice Navigation App**, users can move through your web interface with **natural language commands**, powered by smart voice recognition and a slick UI built with React, Material UI, and Bootstrap.
+
+---
+
+## 🌈 Features at a Glance
+
+✅ Voice-activated page switching  
+✅ Sleek, responsive UI (desktop & mobile)  
+✅ Set your own wake word  
+✅ Advanced fuzzy matching for commands  
+✅ Colorful, accessible design
+
+<details>
+<summary><strong>🔍 Full Feature List</strong></summary>
+
+- 🎙️ **Voice-activated navigation** using fuzzy phonetic recognition  
+- 🖥️ **Modern UI** with React, MUI, and Bootstrap  
+- 📱 **Responsive design** across devices  
+- 🛠️ **Customizable wake word** (e.g., “Hey Jarvis!”)  
+- 🧠 **Smart recognition** of navigation commands  
+- ⚡ **Instant routing** to pages like Home, Dashboard, etc.  
+- 🎨 **Accessible color schemes and UX design**
+
+</details>
+
+---
+
+## 🧱 Tech Stack
+
+| Tech             | Version/Library             |
+|------------------|-----------------------------|
+| React            | v19+                        |
+| Material UI      | `@mui/material`, `@mui/icons-material` |
+| Bootstrap        | v5                          |
+| React Router     | v7                          |
+| Voice Engine     | Web Speech API / Custom logic |
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# Step 1: Install dependencies
+npm install
+
+# Step 2: Start the development server
+npm start
+````
+
+> The app will run at [http://localhost:3000](http://localhost:3000) by default.
+
+---
+
+## 🗺️ App Structure
+
+| File/Component                      | Description                                    |
+| ----------------------------------- | ---------------------------------------------- |
+| `src/App.js`                        | Main app, routes, and logic                    |
+| `src/components/Navbar.js`          | Top nav bar with mic status                    |
+| `src/components/VoiceNavigation.js` | Handles wake word detection and voice commands |
+| `src/pages/Home.js`                 | Landing page and intro                         |
+| `src/pages/Dashboard.js`            | Stats and analytics                            |
+| `src/pages/Settings.js`             | User-configurable voice settings               |
+| `src/pages/Profile.js`              | User profile page                              |
+
+---
+
+## 🎤 How Voice Navigation Works
+
+1. **Wait for wake word** (default: `hey google`)
+2. **Listen for commands** like:
+
+   * "Go home"
+   * "Open settings"
+   * "Show dashboard"
+   * "My profile"
+3. **Navigate instantly** based on the command
+
+💡 Includes fuzzy matching so even similar phrases trigger navigation.
+
+---
+
+## ⚙️ Settings & Preferences
+
+* ✅ Enable or disable voice navigation
+* 🔄 Continuous listening mode toggle
+* 🌐 Language and sensitivity adjustments
+* 🔔 In-app voice status and alerts
+
+---
+
+## 📸 UI Preview
+
+> 🎨 **Vibrant + Functional**
+
+* Clean cards & layouts
+* Material icons for feedback
+* Mic status (inactive, listening, error)
+* Keyboard accessible ✨
+
+---
+
+## 🧑‍💻 Author
+
+Built with 💡, 🎧, and 💻 by **[Nishant Sonar](https://github.com/nishantsonar)**
+Focused on intuitive and inclusive voice-first user experiences.
+
+---
+
+## 📝 License
+
+This project is licensed under the [MIT License](./LICENSE) © 2025 **Nishant Sonar**.
+
+
+---
+
+## 🌐 Connect & Contribute
+
+Got ideas, bugs, or feature requests?
+Feel free to [open an issue](https://github.com/nishantsonar/wake-word-detection/issues) or fork and contribute!
+
+---
+
+## 🏁 Happy Navigating! 🏁
+
+Because the best interface is your **voice**. 🎙️
+
+---
