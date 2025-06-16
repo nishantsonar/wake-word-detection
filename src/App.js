@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { Box, Container } from '@mui/material';
 
 // Components
 import Navbar from './components/Navbar';
@@ -11,24 +11,6 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
-
-const AppContainer = styled.div`
-  min-height: 100vh;
-  background-color: #f5f7fa;
-`;
-
-const MainContent = styled.main`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-`;
-
-const VoiceControlContainer = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-`;
 
 // Voice navigation commands
 const navigationCommands = [
@@ -71,21 +53,28 @@ const NavigationWrapper = () => {
     <>
       <Navbar isListening={isListening} toggleVoiceRecognition={toggleVoiceRecognition} />
       
-      <MainContent>
+      <Container component="main" className="mt-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-      </MainContent>
+      </Container>
       
-      <VoiceControlContainer>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          zIndex: 100
+        }}
+      >
         <VoiceNavigationWithWakeWord 
           onNavigate={handleNavigation} 
           commands={navigationCommands}
         />
-      </VoiceControlContainer>
+      </Box>
     </>
   );
 };
@@ -93,9 +82,9 @@ const NavigationWrapper = () => {
 function App() {
   return (
     <Router>
-      <AppContainer>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
         <NavigationWrapper />
-      </AppContainer>
+      </Box>
     </Router>
   );
 }

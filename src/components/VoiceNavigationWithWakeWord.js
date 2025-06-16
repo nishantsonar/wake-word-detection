@@ -1,130 +1,25 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import styled from 'styled-components';
+import { 
+  Box, 
+  Typography, 
+  Container, 
+  Paper, 
+  IconButton, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  TextField, 
+  Divider,
+  Fade
+} from '@mui/material';
+import MicIcon from '@mui/icons-material/Mic';
+import StopIcon from '@mui/icons-material/Stop';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // Constants
 const WAKE_WORD_DELAY = 100;
 const RECORDING_DURATION = 3000;
-const WAKE_WORD="hey google";
-
-// Styled components
-const VoiceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
-  max-width: 600px;
-  width: 100%;
-`;
-
-const StatusIndicator = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  background-color: ${props => props.active ? '#ff4f4f' : '#4CAF50'};
-  transition: all 0.3s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-const MicIcon = styled.div`
-  font-size: 32px;
-  color: white;
-`;
-
-const CommandsContainer = styled.div`
-  width: 100%;
-  margin-top: 20px;
-`;
-
-const CommandTitle = styled.h3`
-  color: #333;
-  margin-bottom: 10px;
-`;
-
-const CommandList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-const CommandItem = styled.li`
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-`;
-
-const RecognitionText = styled.div`
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 5px;
-  width: 100%;
-  min-height: 60px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
-
-const WakeWordContainer = styled.div`
-  margin-top: 20px;
-  width: 100%;
-`;
-
-const WakeWordInput = styled.input`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-`;
-
-const WakeWordStatus = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 15px 25px;
-  border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-in;
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-  }
-`;
-
-const PulsingDot = styled.div`
-  width: 12px;
-  height: 12px;
-  background-color: #ff4f4f;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  
-  @keyframes pulse {
-    0% { transform: scale(0.8); opacity: 0.8; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(0.8); opacity: 0.8; }
-  }
-`;
+const WAKE_WORD = "hey google";
 
 // Wake word detection helper functions
 function levenshteinDistance(str1, str2) {
@@ -217,7 +112,7 @@ function isWakeWordMatch(text, wakeWord, threshold = 0.65) {
   if (!text || !wakeWord) return false;
   
   // Split the text into words
-  const words = text.toLowerCase().split(/\\s+/);
+  const words = text.toLowerCase().split(/\s+/);
 
   // Calculate similarity score for each word
   for (const word of words) {
@@ -535,48 +430,140 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
   };
 
   return (
-    <VoiceContainer>
-      <StatusIndicator active={isListening || isRecording} onClick={toggleListening}>
-        <MicIcon>{isListening || isRecording ? '⏹' : '🎤'}</MicIcon>
-      </StatusIndicator>
-      
-      <h2>{isListening ? 'Listening for wake word...' : isRecording ? 'Listening for command...' : 'Click to start listening'}</h2>
-      
-      <RecognitionText>
-        {transcript || 'Say your wake word to activate voice commands...'}
-      </RecognitionText>
-      
-      <WakeWordContainer>
-        <label htmlFor="wakeWord">Wake Word:</label>
-        <WakeWordInput 
-          id="wakeWord"
-          type="text" 
-          value={wakeWord} 
-          onChange={(e) => setWakeWord(e.target.value)}
-          placeholder="Enter wake word (e.g., 'hey assistant')"
-        />
-      </WakeWordContainer>
-      
-      <CommandsContainer>
-        <CommandTitle>Available Voice Commands</CommandTitle>
-        <CommandList>
-          {commands.map((command, index) => (
-            <CommandItem key={index}>
-              <span>{command.keywords.join(', ')}</span>
-              <span>→ {command.description}</span>
-            </CommandItem>
-          ))}
-        </CommandList>
-      </CommandsContainer>
+    <Container maxWidth="md" className="py-4">
+      <Paper 
+        elevation={3} 
+        className="p-4"
+        sx={{
+          borderRadius: 2,
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Box 
+          sx={{
+            width: 80,
+            height: 80,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mb: 2,
+            backgroundColor: isListening || isRecording ? '#ff4f4f' : '#4CAF50',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+            '&:hover': {
+              transform: 'scale(1.05)'
+            }
+          }}
+          onClick={toggleListening}
+        >
+          <IconButton 
+            color="inherit" 
+            sx={{ color: 'white', fontSize: 32 }}
+            disableRipple
+          >
+            {isListening || isRecording ? <StopIcon fontSize="large" /> : <MicIcon fontSize="large" />}
+          </IconButton>
+        </Box>
+        
+        <Typography variant="h5" component="h2" className="mb-3">
+          {isListening ? 'Listening for wake word...' : isRecording ? 'Listening for command...' : 'Click to start listening'}
+        </Typography>
+        
+        <Paper 
+          elevation={1} 
+          className="p-3 mb-3 w-100"
+          sx={{
+            minHeight: 60,
+            width: '100%',
+            backgroundColor: 'white'
+          }}
+        >
+          <Typography>
+            {transcript || 'Say your wake word to activate voice commands...'}
+          </Typography>
+        </Paper>
+        
+        <Box sx={{ width: '100%', mt: 2 }}>
+          <Typography variant="subtitle1" component="label" htmlFor="wakeWord">
+            Wake Word:
+          </Typography>
+          <TextField
+            id="wakeWord"
+            fullWidth
+            variant="outlined"
+            value={wakeWord}
+            onChange={(e) => setWakeWord(e.target.value)}
+            placeholder="Enter wake word (e.g., 'hey assistant')"
+            margin="normal"
+            size="small"
+          />
+        </Box>
+        
+        <Box sx={{ width: '100%', mt: 2 }}>
+          <Typography variant="h6" component="h3" gutterBottom>
+            Available Voice Commands
+          </Typography>
+          <List>
+            {commands.map((command, index) => (
+              <React.Fragment key={index}>
+                <ListItem 
+                  sx={{ 
+                    backgroundColor: 'white', 
+                    borderRadius: 1,
+                    mb: 1,
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                  }}
+                >
+                  <ListItemText 
+                    primary={command.keywords.join(', ')} 
+                    secondary={`→ ${command.description}`}
+                  />
+                </ListItem>
+                {index < commands.length - 1 && <Divider />}
+              </React.Fragment>
+            ))}
+          </List>
+        </Box>
+      </Paper>
       
       {/* Wake word detection status */}
-      {wakeWordDetected && isRecording && (
-        <WakeWordStatus>
-          <PulsingDot />
-          <span>Listening for command...</span>
-        </WakeWordStatus>
-      )}
-    </VoiceContainer>
+      <Fade in={wakeWordDetected && isRecording}>
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 20,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            padding: '15px 25px',
+            borderRadius: '30px',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            zIndex: 1000
+          }}
+        >
+          <FiberManualRecordIcon 
+            color="error" 
+            sx={{ 
+              animation: 'pulse 1.5s infinite',
+              '@keyframes pulse': {
+                '0%': { opacity: 0.8, transform: 'scale(0.8)' },
+                '50%': { opacity: 1, transform: 'scale(1.2)' },
+                '100%': { opacity: 0.8, transform: 'scale(0.8)' }
+              }
+            }} 
+          />
+          <Typography>Listening for command...</Typography>
+        </Box>
+      </Fade>
+    </Container>
   );
 };
 

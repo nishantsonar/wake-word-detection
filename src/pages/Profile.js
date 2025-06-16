@@ -1,255 +1,250 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const ProfileContainer = styled.div`
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-`;
-
-const ProfileHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    text-align: center;
-  }
-`;
-
-const ProfileImage = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #3498db;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 48px;
-  margin-right: 30px;
-  
-  @media (max-width: 768px) {
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
-`;
-
-const ProfileInfo = styled.div`
-  flex: 1;
-`;
-
-const ProfileName = styled.h1`
-  color: #2c3e50;
-  margin-bottom: 5px;
-`;
-
-const ProfileTitle = styled.p`
-  color: #7f8c8d;
-  margin-bottom: 10px;
-`;
-
-const ProfileStats = styled.div`
-  display: flex;
-  gap: 20px;
-  
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
-`;
-
-const StatItem = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StatIcon = styled.span`
-  margin-right: 5px;
-`;
-
-const StatText = styled.span`
-  color: #7f8c8d;
-`;
-
-const ProfileSection = styled.div`
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-`;
-
-const SectionTitle = styled.h2`
-  color: #2c3e50;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ecf0f1;
-`;
-
-const InfoGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-`;
-
-const InfoItem = styled.div`
-  margin-bottom: 15px;
-`;
-
-const InfoLabel = styled.div`
-  color: #7f8c8d;
-  font-size: 14px;
-  margin-bottom: 5px;
-`;
-
-const InfoValue = styled.div`
-  color: #2c3e50;
-  font-weight: 500;
-`;
-
-const ActivityList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-const ActivityItem = styled.li`
-  padding: 15px 0;
-  border-bottom: 1px solid #ecf0f1;
-  
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const ActivityHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-`;
-
-const ActivityTitle = styled.div`
-  color: #2c3e50;
-  font-weight: 500;
-`;
-
-const ActivityDate = styled.div`
-  color: #7f8c8d;
-  font-size: 14px;
-`;
-
-const ActivityDescription = styled.div`
-  color: #7f8c8d;
-`;
-
-const EditButton = styled.button`
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 500;
-  
-  &:hover {
-    background-color: #2980b9;
-  }
-`;
+import { 
+  Container, 
+  Typography, 
+  Box, 
+  Paper, 
+  Grid, 
+  Button, 
+  List, 
+  ListItem, 
+  Divider,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 
 const Profile = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
   return (
-    <ProfileContainer>
-      <ProfileHeader>
-        <ProfileImage>JD</ProfileImage>
-        <ProfileInfo>
-          <ProfileName>John Doe</ProfileName>
-          <ProfileTitle>Voice Navigation Enthusiast</ProfileTitle>
-          <ProfileStats>
-            <StatItem>
-              <StatIcon>🎤</StatIcon>
-              <StatText>42 Voice Commands Used</StatText>
-            </StatItem>
-            <StatItem>
-              <StatIcon>📅</StatIcon>
-              <StatText>Member since Jan 2023</StatText>
-            </StatItem>
-          </ProfileStats>
-        </ProfileInfo>
-        <EditButton>Edit Profile</EditButton>
-      </ProfileHeader>
+    <Container maxWidth="md" sx={{ py: 3 }}>
+      <Paper 
+        elevation={2} 
+        sx={{ 
+          p: 3, 
+          mb: 3, 
+          borderRadius: 2,
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center'
+        }}
+      >
+        <Box 
+          sx={{
+            width: 120,
+            height: 120,
+            borderRadius: '50%',
+            bgcolor: '#3498db',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '48px',
+            mr: isMobile ? 0 : 3,
+            mb: isMobile ? 2 : 0
+          }}
+        >
+          JD
+        </Box>
+        
+        <Box sx={{ flex: 1, textAlign: isMobile ? 'center' : 'left' }}>
+          <Typography variant="h4" component="h1" color="text.primary" gutterBottom>
+            John Doe
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+            Voice Navigation Enthusiast
+          </Typography>
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              gap: 2,
+              justifyContent: isMobile ? 'center' : 'flex-start'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box component="span" sx={{ mr: 0.5 }}>🎤</Box>
+              <Typography variant="body2" color="text.secondary">
+                42 Voice Commands Used
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box component="span" sx={{ mr: 0.5 }}>📅</Box>
+              <Typography variant="body2" color="text.secondary">
+                Member since Jan 2023
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        
+        <Button 
+          variant="contained" 
+          sx={{ 
+            bgcolor: '#3498db', 
+            '&:hover': { bgcolor: '#2980b9' },
+            mt: isMobile ? 2 : 0
+          }}
+        >
+          Edit Profile
+        </Button>
+      </Paper>
       
-      <ProfileSection>
-        <SectionTitle>Personal Information</SectionTitle>
-        <InfoGrid>
-          <InfoItem>
-            <InfoLabel>Full Name</InfoLabel>
-            <InfoValue>John Doe</InfoValue>
-          </InfoItem>
-          <InfoItem>
-            <InfoLabel>Email</InfoLabel>
-            <InfoValue>john.doe@example.com</InfoValue>
-          </InfoItem>
-          <InfoItem>
-            <InfoLabel>Phone</InfoLabel>
-            <InfoValue>+1 (555) 123-4567</InfoValue>
-          </InfoItem>
-          <InfoItem>
-            <InfoLabel>Location</InfoLabel>
-            <InfoValue>San Francisco, CA</InfoValue>
-          </InfoItem>
-          <InfoItem>
-            <InfoLabel>Preferred Language</InfoLabel>
-            <InfoValue>English (US)</InfoValue>
-          </InfoItem>
-          <InfoItem>
-            <InfoLabel>Account Type</InfoLabel>
-            <InfoValue>Premium</InfoValue>
-          </InfoItem>
-        </InfoGrid>
-      </ProfileSection>
+      <Paper elevation={2} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
+        <Typography 
+          variant="h5" 
+          component="h2" 
+          color="text.primary" 
+          sx={{ 
+            mb: 3, 
+            pb: 1, 
+            borderBottom: '1px solid #ecf0f1' 
+          }}
+        >
+          Personal Information
+        </Typography>
+        
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Full Name
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                John Doe
+              </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Email
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                john.doe@example.com
+              </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Phone
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                +1 (555) 123-4567
+              </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Location
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                San Francisco, CA
+              </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Preferred Language
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                English (US)
+              </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Account Type
+              </Typography>
+              <Typography variant="body1" fontWeight={500}>
+                Premium
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
       
-      <ProfileSection>
-        <SectionTitle>Voice Command History</SectionTitle>
-        <ActivityList>
-          <ActivityItem>
-            <ActivityHeader>
-              <ActivityTitle>Used "Go to Dashboard" command</ActivityTitle>
-              <ActivityDate>Today, 2:30 PM</ActivityDate>
-            </ActivityHeader>
-            <ActivityDescription>
+      <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
+        <Typography 
+          variant="h5" 
+          component="h2" 
+          color="text.primary" 
+          sx={{ 
+            mb: 3, 
+            pb: 1, 
+            borderBottom: '1px solid #ecf0f1' 
+          }}
+        >
+          Voice Command History
+        </Typography>
+        
+        <List>
+          <ListItem sx={{ px: 0, py: 2, display: 'block', borderBottom: '1px solid #ecf0f1' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+              <Typography variant="body1" fontWeight={500} color="text.primary">
+                Used "Go to Dashboard" command
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Today, 2:30 PM
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
               Successfully navigated to Dashboard page
-            </ActivityDescription>
-          </ActivityItem>
-          <ActivityItem>
-            <ActivityHeader>
-              <ActivityTitle>Used "Show Settings" command</ActivityTitle>
-              <ActivityDate>Today, 11:15 AM</ActivityDate>
-            </ActivityHeader>
-            <ActivityDescription>
+            </Typography>
+          </ListItem>
+          
+          <ListItem sx={{ px: 0, py: 2, display: 'block', borderBottom: '1px solid #ecf0f1' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+              <Typography variant="body1" fontWeight={500} color="text.primary">
+                Used "Show Settings" command
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Today, 11:15 AM
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
               Successfully navigated to Settings page
-            </ActivityDescription>
-          </ActivityItem>
-          <ActivityItem>
-            <ActivityHeader>
-              <ActivityTitle>Used "Open Profile" command</ActivityTitle>
-              <ActivityDate>Yesterday, 4:45 PM</ActivityDate>
-            </ActivityHeader>
-            <ActivityDescription>
+            </Typography>
+          </ListItem>
+          
+          <ListItem sx={{ px: 0, py: 2, display: 'block', borderBottom: '1px solid #ecf0f1' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+              <Typography variant="body1" fontWeight={500} color="text.primary">
+                Used "Open Profile" command
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Yesterday, 4:45 PM
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
               Successfully navigated to Profile page
-            </ActivityDescription>
-          </ActivityItem>
-          <ActivityItem>
-            <ActivityHeader>
-              <ActivityTitle>Used "Go Home" command</ActivityTitle>
-              <ActivityDate>Yesterday, 2:10 PM</ActivityDate>
-            </ActivityHeader>
-            <ActivityDescription>
+            </Typography>
+          </ListItem>
+          
+          <ListItem sx={{ px: 0, py: 2, display: 'block' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+              <Typography variant="body1" fontWeight={500} color="text.primary">
+                Used "Go Home" command
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Yesterday, 2:10 PM
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
               Successfully navigated to Home page
-            </ActivityDescription>
-          </ActivityItem>
-        </ActivityList>
-      </ProfileSection>
-    </ProfileContainer>
+            </Typography>
+          </ListItem>
+        </List>
+      </Paper>
+    </Container>
   );
 };
 
