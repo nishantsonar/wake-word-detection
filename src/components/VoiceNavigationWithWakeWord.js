@@ -112,7 +112,7 @@ function isWakeWordMatch(text, wakeWord, threshold = 0.65) {
   if (!text || !wakeWord) return false;
   
   // Split the text into words
-  const words = text.toLowerCase().split(/\s+/);
+  const words = text.toLowerCase().split(/\\s+/);
 
   // Calculate similarity score for each word
   for (const word of words) {
