@@ -164,7 +164,7 @@ function isWakeWordMatch(text, wakeWord, threshold = 0.65) {
   return false;
 }
 
-const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
+const VoiceNavigation = ({ onNavigate, commands }) => {
   // States
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
@@ -567,4 +567,4 @@ const VoiceNavigationWithWakeWord = ({ onNavigate, commands }) => {
   );
 };
 
-export default VoiceNavigationWithWakeWord;
+export default VoiceNavigation;

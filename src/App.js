@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 // Components
 import Navbar from './components/Navbar';
-import VoiceNavigationWithWakeWord from './components/VoiceNavigationWithWakeWord';
+import VoiceNavigation from './components/VoiceNavigation';
 
 // Pages
 import Home from './pages/Home';
@@ -53,28 +53,42 @@ const NavigationWrapper = () => {
     <>
       <Navbar isListening={isListening} toggleVoiceRecognition={toggleVoiceRecognition} />
       
-      <Container component="main" className="mt-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </Container>
+      <main className="container-fluid py-4">
+        <div className="row justify-content-center">
+          <div className="col-12 col-lg-10">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
+        </div>
+      </main>
       
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: 20,
-          right: 20,
-          zIndex: 100
-        }}
-      >
-        <VoiceNavigationWithWakeWord 
-          onNavigate={handleNavigation} 
-          commands={navigationCommands}
-        />
-      </Box>
+      {/* Transparent voice navigation component for desktop */}
+      <div className="position-fixed bottom-0 end-0 p-4 d-none d-md-block" style={{ zIndex: 1000 }}>
+        <div className="bg-transparent">
+          <VoiceNavigation 
+            onNavigate={handleNavigation} 
+            commands={navigationCommands}
+            transparent={true}
+          />
+        </div>
+      </div>
+      
+      {/* Mobile version of voice navigation - fixed at bottom center */}
+      <div className="position-fixed bottom-0 start-50 translate-middle-x p-3 d-block d-md-none" style={{ zIndex: 1000 }}>
+        <div className="bg-transparent rounded-pill shadow-sm p-2">
+          <button 
+            className={`btn ${isListening ? 'btn-danger' : 'btn-success'} rounded-circle`}
+            onClick={toggleVoiceRecognition}
+            aria-label={isListening ? "Stop listening" : "Start listening"}
+          >
+            <i className={`bi ${isListening ? 'bi-mic-mute' : 'bi-mic'}`}></i>
+          </button>
+        </div>
+      </div>
     </>
   );
 };
@@ -82,9 +96,9 @@ const NavigationWrapper = () => {
 function App() {
   return (
     <Router>
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
+      <div className="min-vh-100 bg-light">
         <NavigationWrapper />
-      </Box>
+      </div>
     </Router>
   );
 }
